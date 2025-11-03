@@ -93,8 +93,8 @@ def main() -> None:
     db_connection = sqlite3.connect(DB_FILE)
     c = db_connection.cursor()
     
-    burke_roster = get_roster_for_team(BURKE_OWNER_ID, c)
-    print_roster(burke_roster)
+    connor_roster = get_roster_for_team(CONNOR_OWNER_ID, c)
+    print_roster(connor_roster)
 
 if __name__ == "__main__":
     main()
