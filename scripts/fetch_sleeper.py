@@ -73,16 +73,28 @@ def get_roster_for_team(owner_id, db_cursor):
         'players': players_info
     }
 
+# Prints the roster returned from the get_roster_for_team func
+def print_roster(roster):
+    if not roster:
+        print("No roster data found.")
+        return
+
+    print(f"\nOwner: {roster['owner_name']}")
+    print("-" * 40)
+    for player in roster['players']:
+        name = player.get('full_name', 'Unknown')
+        pos = player.get('position', 'Unknown')
+        team = player.get('team', 'Unknown')
+        print(f"{name:<25} ({pos}) - {team}")
+    print("-" * 40)
+
 def main() -> None:
     # Connect to the SQLite Datbase
     db_connection = sqlite3.connect(DB_FILE)
     c = db_connection.cursor()
     
     burke_roster = get_roster_for_team(BURKE_OWNER_ID, c)
-    if burke_roster:
-        print(f"Owner: {burke_roster['owner_name']}")
-        for p in burke_roster['players']:
-            print(f"{p['full_name']} ({p['position']}) - {p['team']}")
+    print_roster(burke_roster)
 
 if __name__ == "__main__":
     main()
