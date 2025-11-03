@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 import requests
+import sqlite3
+import json
 
+# Database information
+DB_FILE = "sleeper_league.db"
 
-
+# API URLs
 SLEEPER_API_URL = "https://api.sleeper.app/v1/"
 SLEEPER_API_LEAGUE = "https://api.sleeper.app/v1/league/"
+SLEEPER_API_NFL_PLAYERS = "https://api.sleeper.app/v1/players/nfl"
 LEAGUE_ID = "1253516124402757633" # Hangover Sundays
 
 # Owner IDs for the League
@@ -25,9 +30,9 @@ MONTE_OWNER_ID = "1121881416008192000" # monte2424
 def main() -> None:
     #league_info = requests.get(f"{SLEEPER_API_LEAGUE}{LEAGUE_ID}").json()
     #rosters = requests.get(f"{SLEEPER_API_LEAGUE}{LEAGUE_ID}/rosters").json()
-    week_1 = requests.get(f"{SLEEPER_API_LEAGUE}{LEAGUE_ID}/matchups/1").json()
+    players = requests.get(f"{SLEEPER_API_NFL_PLAYERS}").json()
 
-    print(week_1)
+    print(players)
 
 if __name__ == "__main__":
     main()
