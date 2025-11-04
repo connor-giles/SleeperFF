@@ -7,8 +7,8 @@ DB_FILE_25 = "sleeper_league_25.db"
 DB_FILE_24 = "sleeper_league_24.db"
 
 # League ID's
-LEAGUE_ID_2526 = "1253516124402757633" # Hangover Sundays 2025/2026
-LEAGUE_ID_2425 = "1121122562257293312" # Hangover Sundays 2024/2025
+LEAGUE_ID_25 = "1253516124402757633" # Hangover Sundays 2025/2026
+LEAGUE_ID_24 = "1121122562257293312" # Hangover Sundays 2024/2025
 
 # API URLs
 SLEEPER_API_NFL_PLAYERS = "https://api.sleeper.app/v1/players/nfl"
@@ -69,7 +69,7 @@ print(f"Inserted {len(players)} players.")
 
 # Fetch league users and store in users table
 print("Fetching league users...")
-users = requests.get(f"https://api.sleeper.app/v1/league/{LEAGUE_ID_2526}/users").json()
+users = requests.get(f"https://api.sleeper.app/v1/league/{LEAGUE_ID_25}/users").json()
 for user in users:
     c.execute("""
     INSERT OR REPLACE INTO users (user_id, display_name, data)
@@ -80,12 +80,12 @@ print(f"Inserted {len(users)} users.")
 
 # Fetch league rosters and store in the rosters table
 print("Fetching rosters...")
-rosters = requests.get(f"https://api.sleeper.app/v1/league/{LEAGUE_ID_2526}/rosters").json()
+rosters = requests.get(f"https://api.sleeper.app/v1/league/{LEAGUE_ID_25}/rosters").json()
 for roster in rosters:
     c.execute("""
     INSERT OR REPLACE INTO rosters (roster_id, owner_id, league_id, players)
     VALUES (?, ?, ?, ?)
-    """, (roster['roster_id'], roster['owner_id'], LEAGUE_ID_2526, json.dumps(roster['players'])))
+    """, (roster['roster_id'], roster['owner_id'], LEAGUE_ID_25, json.dumps(roster['players'])))
 db_connection.commit()
 print(f"Inserted {len(rosters)} rosters.")
 
