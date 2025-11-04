@@ -50,11 +50,25 @@ CREATE TABLE IF NOT EXISTS rosters (
 )
 """)
 
+# Creates / updates the matchups table
+c.execute("""
+CREATE TABLE IF NOT EXISTS matchups (
+    matchup_id TEXT PRIMARY KEY,
+    week INTEGER,
+    roster_id INTEGER,
+    points REAL,
+    starters JSON,
+    players_points JSON,
+    matchup_id_group INTEGER,
+    FOREIGN KEY(roster_id) REFERENCES rosters(roster_id)
+)
+""")
+
 # Commit table creation
 db_connection.commit()
 
 # Fetch NFL player data and insert into the players table
-print("Fetching player data...")
+print("Fetching NFL player data...")
 players = requests.get("https://api.sleeper.app/v1/players/nfl").json()
 for pid, pdata in players.items():
     full_name = pdata.get('full_name', 'Unknown')
@@ -65,10 +79,10 @@ for pid, pdata in players.items():
     VALUES (?, ?, ?, ?, ?)
     """, (pid, full_name, team, position, json.dumps(pdata)))
 db_connection.commit()
-print(f"Inserted {len(players)} players.")
+print(f"Inserted {len(players)} NFL players.\n")
 
 # Fetch league users and store in users table
-print("Fetching league users...")
+print("Fetching Sleeper users...")
 users = requests.get(f"https://api.sleeper.app/v1/league/{LEAGUE_ID_25}/users").json()
 for user in users:
     c.execute("""
@@ -76,10 +90,10 @@ for user in users:
     VALUES (?, ?, ?)
     """, (user['user_id'], user['display_name'], json.dumps(user)))
 db_connection.commit()
-print(f"Inserted {len(users)} users.")
+print(f"Inserted {len(users)} users for Hangover Sundays.\n")
 
 # Fetch league rosters and store in the rosters table
-print("Fetching rosters...")
+print("Fetching league rosters...")
 rosters = requests.get(f"https://api.sleeper.app/v1/league/{LEAGUE_ID_25}/rosters").json()
 for roster in rosters:
     c.execute("""
@@ -87,7 +101,33 @@ for roster in rosters:
     VALUES (?, ?, ?, ?)
     """, (roster['roster_id'], roster['owner_id'], LEAGUE_ID_25, json.dumps(roster['players'])))
 db_connection.commit()
-print(f"Inserted {len(rosters)} rosters.")
+print(f"Inserted {len(rosters)} rosters.\n")
+
+# Fetch matchups for each week of the year
+print("Fetching league matchups by week...")
+for week in range(1, 18):  # Regular season weeks
+    matchups = requests.get(
+        f"https://api.sleeper.app/v1/league/{LEAGUE_ID_25}/matchups/{week}"
+    ).json()
+    
+    if matchups:
+        for matchup in matchups:
+            matchup_id = f"{LEAGUE_ID_25}_{week}_{matchup['roster_id']}"
+            c.execute("""
+            INSERT OR REPLACE INTO matchups 
+            (matchup_id, week, roster_id, points, starters, players_points, matchup_id_group)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (
+                matchup_id,
+                week,
+                matchup['roster_id'],
+                matchup.get('points', 0),
+                json.dumps(matchup.get('starters', [])),
+                json.dumps(matchup.get('players_points', {})),
+                matchup.get('matchup_id')
+            ))
+        db_connection.commit()
+        print(f"Inserted week {week} matchups.")
 
 # Close connection
 db_connection.close()
