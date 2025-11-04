@@ -12,8 +12,8 @@ SLEEPER_API_LEAGUE = "https://api.sleeper.app/v1/league/"
 SLEEPER_API_NFL_PLAYERS = "https://api.sleeper.app/v1/players/nfl"
 
 # League ID's
-LEAGUE_ID_2526 = "1253516124402757633" # Hangover Sundays 2025/2026
-LEAGUE_ID_2425 = "1121122562257293312" # Hangover Sundays 2024/2025
+LEAGUE_ID_2025 = "1253516124402757633" # Hangover Sundays 2025
+LEAGUE_ID_2024 = "1121122562257293312" # Hangover Sundays 2024
 
 # Owner IDs for the League
 DYLAN_OWNER_ID = "1121129137239953408" # StringerIHardlyKnowHer

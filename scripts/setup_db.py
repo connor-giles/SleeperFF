@@ -3,8 +3,8 @@ import requests
 import json
 
 # DBs by Year
-DB_FILE_2526 = "sleeper_league_2526.db"
-DB_FILE_2425 = "sleeper_league_2425.db"
+DB_FILE_25 = "sleeper_league_25.db"
+DB_FILE_24 = "sleeper_league_24.db"
 
 # League ID's
 LEAGUE_ID_2526 = "1253516124402757633" # Hangover Sundays 2025/2026
@@ -14,7 +14,7 @@ LEAGUE_ID_2425 = "1121122562257293312" # Hangover Sundays 2024/2025
 SLEEPER_API_NFL_PLAYERS = "https://api.sleeper.app/v1/players/nfl"
 
 # Connect to SQLite
-db_connection = sqlite3.connect(DB_FILE_2526)
+db_connection = sqlite3.connect(DB_FILE_25)
 
 # Allows interaction with the db
 c = db_connection.cursor()
