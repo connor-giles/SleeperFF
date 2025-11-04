@@ -11,7 +11,7 @@ import all_play_standings
 
 def main() -> None:
     # Connect to the SQLite Datbase
-    db_connection = sqlite3.connect(utl.DB_FILE)
+    db_connection = sqlite3.connect(utl.DB_FILE_25)
     c = db_connection.cursor()
 
     setup_db.main()
