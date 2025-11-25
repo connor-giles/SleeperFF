@@ -238,8 +238,11 @@ def print_luck_rankings(luck_data):
         elif luck_index > -0.100:
             assessment = "😞 Unlucky"
             style = "yellow"
-        else:
+        elif luck_index > -0.200:
             assessment = "💀 Very Unlucky"
+            style = "orange1"
+        else:
+            assessment = "💩 Gawet Mode"
             style = "bold red"
         
         actual_record = f"{team['actual_wins']}-{team['actual_losses']}"

@@ -7,6 +7,7 @@ import utl
 import setup_db
 import win_probability
 import all_play_standings
+import team_consistency
 
 
 def main() -> None:
@@ -17,6 +18,7 @@ def main() -> None:
     setup_db.main()
     win_probability.main()
     all_play_standings.main()
+    team_consistency.main()
 
 if __name__ == "__main__":
     main()

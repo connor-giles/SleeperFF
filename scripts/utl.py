@@ -1,6 +1,6 @@
 
 # Database information
-DB_FIL_25 = "sleeper_league_25.db"
+DB_FILE_25 = "sleeper_league_25.db"
 
 # API URLs
 SLEEPER_API_URL = "https://api.sleeper.app/v1/"
